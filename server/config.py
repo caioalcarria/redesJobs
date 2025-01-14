@@ -28,9 +28,17 @@ class IpSend:
         return self.onlineAccount
 profiles = IpSend()
 
+
+
+
+
+
+
+
+
 def server_start(function):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(('127.0.0.1', 12317))
+    server.bind(('127.0.0.1', 12321))
     server.listen(50)
     print("Servidor aguardando conexões...")
 
@@ -49,9 +57,18 @@ def server_start(function):
 
 
 
+
+
+
+
+
+
+
+
+
 def message_live_server(function):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(('127.0.0.1', 12318))
+    server.bind(('127.0.0.1', 12322))
     server.listen(50)
     print("Servidor de mensagens aguardando conexões...")
 

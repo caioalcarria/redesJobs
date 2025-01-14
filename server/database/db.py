@@ -3,7 +3,7 @@ import sqlite3
 
 class db:
     def __init__(self):
-        self.conn = sqlite3.connect('server/database/db.sqlite')
+        self.conn = sqlite3.connect('database/db.sqlite')
         self.cursor = self.conn.cursor()
 
         self.conn.execute("PRAGMA foreign_keys = ON")

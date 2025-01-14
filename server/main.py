@@ -85,9 +85,39 @@ def server_client_handle(client_socket, profiles):
                 while True:
                     message = socket_manager.receive_by_package_json_to_dict()
                     if message['message'] == 'exit_code_000207000':
+                        online_profiles_list = profiles.getProfiles()
+
+                        client_socket_manager_self = None
+
+                        for profile in online_profiles_list:
+                            if profile["username"] == userSeasson:
+                                client_socket_manager_self = profile["client_socket_manager"]
+
+                        client_socket_manager_self.send_by_package_dict_to_json({"message": "exit_code_000207000"})
+
                         print('Conversa encerrada')
                         break
                     else:
+                        #/quando eu receber a msgn que ele quer enviar eu tenho que mandar uma mensagem de volta para ele pra informar que a mensagem foi enviada 
+                        #/ essa mensagem vai ser enviada no outro socket dele que está aberto esperando pra recerber a mensagem
+                        #/ isso pra dizer avisar ao cliente que agora ele está envando msgn e pode fechar o whille de espera de mensagem pra pode reinstanciar o while de espera de mensagem
+
+                        #pega o socket do aberto do meu cliente
+                        online_profiles_list = profiles.getProfiles()
+
+                        client_socket_manager_self = None
+
+                        for profile in online_profiles_list:
+                            if profile["username"] == userSeasson:
+                                client_socket_manager_self = profile["client_socket_manager"]
+
+                        client_socket_manager_self.send_by_package_dict_to_json({"message": "exit_code_000207000"})
+
+                        
+
+                        
+
+
                         #/ adicionar msgn ao bando de dados
                         messages.send_message(userSeasson, recipient, message['message'])
 
@@ -110,6 +140,7 @@ def server_client_handle(client_socket, profiles):
                             #........................aqui o codigo para enviar a mensagem para o socket do recipient
                             print('Mensagem enviada para o recipient online')
                             client_socket_manager_recipient.send_by_package_dict_to_json(message)
+                            print('Mensagem recebida de recipient online')
                             #!quando o usuário deslogar eu tenho que remover o socket dele da lista de profiles
                         else:
                             pass

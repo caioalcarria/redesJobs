@@ -31,7 +31,7 @@ class SocketManager:
             self.socket.sendall(package)
             i += package_size
         #? informa que o envio foi concluído
-        self.send_integer( 0)
+        self.send_integer(0)
 
     def receive_json_to_dict(self,  package_size=1024):
         data = self.socket.recv(package_size).decode('utf-8')

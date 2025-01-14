@@ -1,12 +1,20 @@
 import streamlit as st
 from datetime import datetime
 import threading
+import time
 
 
 
 
 def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocketManager, live_messages):
+
+
+    #/estado
+    if 'chat_messages_online' not in st.session_state:
+        st.session_state.chat_messages_online = True
     
+    print(f"a porraaaaaaaaaaaaaaaaaaaaa rodou novamenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee em {user['username']}")
+
     #/informções do user_chat
     user_chat_name = user_chat['name']
     user_chat_username = user_chat['username']
@@ -118,6 +126,7 @@ def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocke
     #/campo de texto para enviar mensagem
     prompt = st.chat_input("Say something")
     if prompt:
+        st.session_state.chat_messages_online = False
         print("enviandddddddddooooo")
         #/criando um dicionario com a mensagem
         message = {"sender": user_username, "message": prompt, 'time': datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
@@ -127,16 +136,66 @@ def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocke
         socket_manager.send_by_package_dict_to_json(message)
         #/renderizando a mensagem
         render_messages()
+        # while True:
+        #     # i = 0
+        #     # while st.session_state.chat_messages_online == True:
+        #     #     print(i)
+        #     #     time.sleep(2)
+        #     #     i += 1
+        #     message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
+        #     print("mensagem recebida fora do botão")
+        #     print(message_rec)
 
+        #     if message_rec["message"] == "exit_code_000207000":
+        #         break
+        #     else:
+        #         st.session_state.chat_messages.append(message_rec)
+        #         #?so rederiza a msgns em sí
+        #         mensagem_recebida(message_rec)
+        # return True
+        # while True:
+        #     message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
+        #     print("mensagem recebida dentro do botão")
+        #     print(message_rec)
+        #     st.session_state.chat_messages.append(message_rec)
+        #     #?so rederiza a msgns em sí
+        #     mensagem_recebida(message_rec)
+
+    print(f"a porraaaaaaaaaaaaaaaaaaaaa rodou em baixoooooooo em {user['username']}")
 
 
     #/recebendo mensagem do servidor
+
+        # i = 0
+        # while st.session_state.chat_messages_online == True:
+        #     print(i)
+        #     time.sleep(2)
+        #     i += 1
+    # message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
+    # print("mensagem recebida fora do botão")
+    # print(message_rec)
+    # st.session_state.chat_messages.append(message_rec)
+    # #?so rederiza a msgns em sí
+    # mensagem_recebida(message_rec)
+    # st.rerun()
+    
     while True:
+        # i = 0
+        # while st.session_state.chat_messages_online == True:
+        #     print(i)
+        #     time.sleep(2)
+        #     i += 1
         message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
+        print("mensagem recebida fora do botão")
         print(message_rec)
-        st.session_state.chat_messages.append(message_rec)
-        #?so rederiza a msgns em sí
-        mensagem_recebida(message_rec)
+
+        if message_rec["message"] == "exit_code_000207000":
+            break
+        else:
+            st.session_state.chat_messages.append(message_rec)
+            #?so rederiza a msgns em sí
+            mensagem_recebida(message_rec)
+
     return True
     
     #/adicionando a mensagem no estado

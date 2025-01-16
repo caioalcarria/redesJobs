@@ -55,9 +55,10 @@ class SocketManager:
                 packages.append(package)
                 total += len(package)
             return b''.join(packages)
-        
+
         data_bytes = bytearray()
         while True:
+            # Receive the size of the package
             tamanho_pacote = recvall(self.socket, 4)
             if not tamanho_pacote:
                 break
@@ -66,11 +67,13 @@ class SocketManager:
             if tamanho == 0:
                 break
 
+            # Receive the package data
             package_data = recvall(self.socket, tamanho)
             if not package_data:
                 break
 
             data_bytes.extend(package_data)
 
+        # Decode the received bytes to a JSON string and convert it to a dictionary
         received_json = data_bytes.decode('utf-8')
         return json.loads(received_json)

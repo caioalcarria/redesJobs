@@ -64,10 +64,3 @@ class UserService:
             print(e)
             return False
 
-
-""" create_user('admin', 'admin', 'admin@email.com', '1234', '123456789')
-create_user('caio', 'admin', 'caio@email.com', '1234', '123453789')
-create_user('matheus', 'admin', 'matheus@email.com', '1234', '133456789')
-create_user('thiago', 'admin', 'thiago@email.com', '1234', '123436789')
-create_user('patricia', 'admin', 'patricia@email.com', 'admin123', '123336789')
-login('admin', '1234')  # Returns True """

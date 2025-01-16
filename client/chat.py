@@ -7,13 +7,9 @@ import time
 
 
 def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocketManager, live_messages):
-
-
     #/estado
     if 'chat_messages_online' not in st.session_state:
         st.session_state.chat_messages_online = True
-    
-    print(f"a porraaaaaaaaaaaaaaaaaaaaa rodou novamenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee em {user['username']}")
 
     #/informções do user_chat
     user_chat_name = user_chat['name']
@@ -75,11 +71,14 @@ def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocke
 
     #/função para rederizar as mensagens
     def render_messages():
-        for message in st.session_state.chat_messages:
-            if message["sender"] == user_username:
-                mensagem_enviada(message)
-            else:
-                mensagem_recebida(message)
+        if st.session_state.chat_messages == []:
+            st.write("Nenhuma mensagem")
+        else:
+            for message in st.session_state.chat_messages:
+                if message["sender"] == user_username:
+                    mensagem_enviada(message)
+                else:
+                    mensagem_recebida(message)
 
     #! o problema é que isso n pode se repetir..............................................................
 
@@ -191,10 +190,12 @@ def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocke
 
         if message_rec["message"] == "exit_code_000207000":
             break
-        else:
+        elif message_rec["sender"] == user_chat_username :
             st.session_state.chat_messages.append(message_rec)
             #?so rederiza a msgns em sí
             mensagem_recebida(message_rec)
+        else:
+            pass
 
     return True
     

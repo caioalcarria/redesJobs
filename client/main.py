@@ -9,7 +9,7 @@ import threading
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.serverSession = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    st.session_state.serverConnect = st.session_state.serverSession.connect(('127.0.0.1', 12321))
+    st.session_state.serverConnect = st.session_state.serverSession.connect(('127.0.0.1', 1234))
 
 socket_manager = SocketManager(st.session_state.serverSession)
 
@@ -26,7 +26,7 @@ if  st.session_state.logged_in == True:
     if 'live_messages' not in st.session_state:
         st.session_state.live_messages = []
         st.session_state.messageLiveServerSession = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        st.session_state.messageLiveServerConnect = st.session_state.messageLiveServerSession.connect(('127.0.0.1', 12322))
+        st.session_state.messageLiveServerConnect = st.session_state.messageLiveServerSession.connect(('127.0.0.1', 1235))
         st.session_state.messageLiveServerSocketManager = SocketManager(st.session_state.messageLiveServerSession)
         st.session_state.messageLiveServerSocketManager.send_string(st.session_state.user_info['username'])
 

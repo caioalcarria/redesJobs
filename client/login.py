@@ -5,7 +5,7 @@ import base64
 import struct
 
 def login(server):
-    socket_manager = SocketManager(server)
+    socket_manager = SocketManager(st.session_state.serverSession)
     
     st.title("Login")
     username = st.text_input("Digite seu username:")

@@ -26,12 +26,12 @@ class SocketManager:
             #? Divide o json em pacotes
             package = bin_data[i:i+package_size]
             #? Envia o tamanho do pacote
-            self.send_integer( len(package))
+            self.send_integer(len(package))
             #? Envia o pacote
             self.socket.sendall(package)
             i += package_size
         #? informa que o envio foi concluído
-        self.send_integer( 0)
+        self.send_integer(0)
 
     def receive_json_to_dict(self,  package_size=1024):
         data = self.socket.recv(package_size).decode('utf-8')
@@ -55,9 +55,10 @@ class SocketManager:
                 packages.append(package)
                 total += len(package)
             return b''.join(packages)
-        
+
         data_bytes = bytearray()
         while True:
+            # Recebe o tamnho do pacote a ser recebido
             tamanho_pacote = recvall(self.socket, 4)
             if not tamanho_pacote:
                 break
@@ -66,6 +67,7 @@ class SocketManager:
             if tamanho == 0:
                 break
 
+            # recebe os pacotes
             package_data = recvall(self.socket, tamanho)
             if not package_data:
                 break

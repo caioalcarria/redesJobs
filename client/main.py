@@ -3,13 +3,18 @@ import streamlit as st
 from login import login
 from dashboard import dashboard
 from socketManager import SocketManager
-import threading
+
+
+
 
 
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
     st.session_state.serverSession = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     st.session_state.serverConnect = st.session_state.serverSession.connect(('127.0.0.1', 1234))
+
+
+
 
 socket_manager = SocketManager(st.session_state.serverSession)
 
@@ -30,15 +35,8 @@ if  st.session_state.logged_in == True:
         st.session_state.messageLiveServerSocketManager = SocketManager(st.session_state.messageLiveServerSession)
         st.session_state.messageLiveServerSocketManager.send_string(st.session_state.user_info['username'])
 
-    # def receive_messages(messageLiveServerSocketManager, live_messages, st):
-    #     while True:
-    #         print("rodo dnvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
-    #         message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
-    #         live_messages.append(message_rec)
-    #         print(live_messages)
-    #         st.rerun()
-            
-    # threading.Thread(target=receive_messages, args=(st.session_state.messageLiveServerSocketManager, st.session_state.live_messages, st)).start()
+
+
 
 
 try:
@@ -51,6 +49,9 @@ try:
             st.rerun()
     if st.session_state.logged_in:
         dashboard(server, st.session_state.user_info, st.session_state.messageLiveServerSocketManager, st.session_state.live_messages)
-    
+
+
+
+
 except socket.error as e:
     st.error(f"Internal server error: {e}")

@@ -7,6 +7,7 @@ import time
 
 
 def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocketManager, live_messages):
+    
     #/estado
     if 'chat_messages_online' not in st.session_state:
         st.session_state.chat_messages_online = True
@@ -20,10 +21,6 @@ def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocke
     user_name = user['name']
     user_username = user['username']
     user_image = get_json_image(user['photo'])
-
-
-    #/botoes de chamada
-    selection = st.pills("actions", [" 🎥  Video Chamada ", "📎 Mandar Arquivo", " 🎤 Gravar Audio", "📞 Chamada"], selection_mode="multi")
 
 
     #/nome do usuario com quem quero conversar
@@ -96,29 +93,8 @@ def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocke
         render_messages()
 
 
-
-        # #/receber mensagens
-        # def receive_messages():
-        #     while True:
-        #         #/recebendo mensagem do servidor
-        #         message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
-        #         print(message_rec)
-        #         #/adicionando a mensagem no estado
-        #         #chat_messages.append(message_rec)
-        #         #/renderizando a mensagem
-        #         #render_messages()
-
-        # #/iniciando thread para receber mensagens
-        # threading.Thread(target=receive_messages ).start()
     chat_messages = st.session_state.chat_messages
     #! o problema é que isso n pode se repetir..............................................................
-
-    # print(f"fez o rerun em {user_username}")
-    # for message_live in live_messages:
-    #     if message_live["sender"] == user_chat_username:
-    #         st.session_state.chat_messages.append(message_live)
-    #         render_messages()
-    #         live_messages.remove(message_live)
 
 
 
@@ -135,55 +111,13 @@ def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocke
         socket_manager.send_by_package_dict_to_json(message)
         #/renderizando a mensagem
         render_messages()
-        # while True:
-        #     # i = 0
-        #     # while st.session_state.chat_messages_online == True:
-        #     #     print(i)
-        #     #     time.sleep(2)
-        #     #     i += 1
-        #     message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
-        #     print("mensagem recebida fora do botão")
-        #     print(message_rec)
-
-        #     if message_rec["message"] == "exit_code_000207000":
-        #         break
-        #     else:
-        #         st.session_state.chat_messages.append(message_rec)
-        #         #?so rederiza a msgns em sí
-        #         mensagem_recebida(message_rec)
-        # return True
-        # while True:
-        #     message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
-        #     print("mensagem recebida dentro do botão")
-        #     print(message_rec)
-        #     st.session_state.chat_messages.append(message_rec)
-        #     #?so rederiza a msgns em sí
-        #     mensagem_recebida(message_rec)
-
-    print(f"a porraaaaaaaaaaaaaaaaaaaaa rodou em baixoooooooo em {user['username']}")
 
 
     #/recebendo mensagem do servidor
 
-        # i = 0
-        # while st.session_state.chat_messages_online == True:
-        #     print(i)
-        #     time.sleep(2)
-        #     i += 1
-    # message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
-    # print("mensagem recebida fora do botão")
-    # print(message_rec)
-    # st.session_state.chat_messages.append(message_rec)
-    # #?so rederiza a msgns em sí
-    # mensagem_recebida(message_rec)
-    # st.rerun()
-    
+
     while True:
-        # i = 0
-        # while st.session_state.chat_messages_online == True:
-        #     print(i)
-        #     time.sleep(2)
-        #     i += 1
+
         message_rec = messageLiveServerSocketManager.receive_by_package_json_to_dict()
         print("mensagem recebida fora do botão")
         print(message_rec)
@@ -198,9 +132,3 @@ def chat(user_chat, user, get_json_image, socket_manager, messageLiveServerSocke
             pass
 
     return True
-    
-    #/adicionando a mensagem no estado
-    #st.session_state.chat_messages.append(message_rec)
-    #st.rerun()
-
-    
